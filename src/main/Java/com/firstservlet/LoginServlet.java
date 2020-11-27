@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class LoginServlet
  */
 @WebServlet(description = "Login Servlet Testing", urlPatterns = { "/LoginServlet" }, initParams = {
-		@WebInitParam(name = "user", value = "Nikhil"), @WebInitParam(name = "password", value = "Capgemini") })
+		@WebInitParam(name = "password", value = "Capgemini") })
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -30,9 +30,8 @@ public class LoginServlet extends HttpServlet {
 		String user = request.getParameter("user");
 		String pwd = request.getParameter("pwd");
 		// get servlet config init params
-		String userId = getServletConfig().getInitParameter("user");
 		String password = getServletConfig().getInitParameter("password");
-		if (userId.equals(user) && password.equals(pwd)) {
+		if (user.matches("^[A-Z][a-zA-Z]{2,}") && password.equals(pwd)) {
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("loginSuccess.jsp").forward(request, response);
 		} else {
