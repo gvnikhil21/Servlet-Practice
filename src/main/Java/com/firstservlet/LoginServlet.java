@@ -14,8 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet(description = "Login Servlet Testing", urlPatterns = { "/LoginServlet" }, initParams = {
-		@WebInitParam(name = "password", value = "Capgemini") })
+@WebServlet(description = "Login Servlet Testing", urlPatterns = { "/LoginServlet" })
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -29,15 +28,13 @@ public class LoginServlet extends HttpServlet {
 		// get request parameters for user and password
 		String user = request.getParameter("user");
 		String pwd = request.getParameter("pwd");
-		// get servlet config init params
-		String password = getServletConfig().getInitParameter("password");
-		if (user.matches("^[A-Z][a-zA-Z]{2,}") && password.equals(pwd)) {
+		if (user.matches("^[A-Z][a-zA-Z]{2,}$") && pwd.matches("^(?=\\S{8,})(?=\\S*[A-Z])(?=\\S*[\\d])[\\w]*[^\\w\\s][\\w]*")) {
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("loginSuccess.jsp").forward(request, response);
 		} else {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.html");
 			PrintWriter out = response.getWriter();
-			out.println("<font color=red>Either user-name or password is wrong.</font>");
+			out.println("<font color=red>Either user-name or password is Invalid.</font>");
 			rd.include(request, response);
 		}
 	}
